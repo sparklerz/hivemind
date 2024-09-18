@@ -235,7 +235,7 @@ class TrainingStateAverager(DecentralizedAverager):
             initialize_optimizer = not any(isinstance(x, torch.Tensor) for x in nested_flatten(optimizer.state_dict()))
             logger.log(
                 self.status_loglevel,
-                "Initializing optimizer manually since it has no tensors in state dict. "
+                "Initializing optimizer manually since it has no tensors in state dict. "#here
                 "To override this, provide initialize_optimizer=False",
             )
 

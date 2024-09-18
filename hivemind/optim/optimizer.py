@@ -247,10 +247,15 @@ class Optimizer(torch.optim.Optimizer):
         self.scheduled_grads: Optional[StepControl] = None
         self.scheduled_state: Optional[StepControl] = None
 
-        self.tracker = self._make_progress_tracker(
+        logger.log(f"reaching _make_progress_tracker - initializes ProgressTracker")
+
+        self.tracker = self._make_progress_tracker(#here
             target_batch_size, performance_ema_alpha=performance_ema_alpha, **tracker_opts or {}
         )
-        self.state_averager = self._make_state_averager(
+
+        logger.log(f"reaching _make_state_averager - initializes TrainingStateAverager")
+
+        self.state_averager = self._make_state_averager(#here
             optimizer=optimizer,
             params=params,
             scheduler=scheduler,
@@ -280,7 +285,7 @@ class Optimizer(torch.optim.Optimizer):
         # note: the line above is used by pytorch AMP GradScaler to enable custom behavior needed when reusing gradient
         # buffers over multiple steps (to avoid repeated unscaling). Without reuse_grad_buffers, this is not needed.
 
-    def _make_state_averager(self, **kwargs) -> TrainingStateAverager:
+    def _make_state_averager(self, **kwargs) -> TrainingStateAverager:#here
         return TrainingStateAverager(
             dht=self.dht,
             prefix=f"{self.run_id}_state_averager",
@@ -322,7 +327,7 @@ class Optimizer(torch.optim.Optimizer):
                     opt_param.grad = averaged_grad
         return grad_averager
 
-    def _make_progress_tracker(self, target_batch_size: int, **kwargs) -> ProgressTracker:
+    def _make_progress_tracker(self, target_batch_size: int, **kwargs) -> ProgressTracker:#here
         return ProgressTracker(
             dht=self.dht,
             prefix=self.run_id,
