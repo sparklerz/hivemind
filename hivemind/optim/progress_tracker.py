@@ -112,7 +112,7 @@ class ProgressTracker(threading.Thread):
         # report the collaboration progress periodically or in background
         self.local_progress = self._get_local_progress(local_epoch=0, samples_accumulated=0)
         metadata, _expiration = self.dht.get(self.training_progress_key, latest=True) or (None, -float("inf"))
-        logger.log(f"initializing ProgressTracker")
+        logging.INFO(f"initializing ProgressTracker")
         self.global_progress = self._parse_swarm_progress_data(metadata)#here
         self.lock_global_progress, self.global_state_updated = threading.Lock(), threading.Event()
         self.should_report_progress, self.fetched_global_progress_this_epoch = threading.Event(), threading.Event()
@@ -277,7 +277,7 @@ class ProgressTracker(threading.Thread):
         """Read performance statistics reported by peers, estimate progress towards next batch"""
         current_time = get_dht_time()
 
-        logger.log(f"getting inside _parse_swarm_progress_data")
+        logging.INFO(f"getting inside _parse_swarm_progress_data")
 
         if not isinstance(metadata, dict) or len(metadata) == 0:
             logger.log(self.status_loglevel, f"Found no active peers: {metadata}")
