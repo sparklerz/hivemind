@@ -113,7 +113,8 @@ class ProgressTracker(threading.Thread):
         self.local_progress = self._get_local_progress(local_epoch=0, samples_accumulated=0)
         metadata, _expiration = self.dht.get(self.training_progress_key, latest=True) or (None, -float("inf"))
         logging.INFO(f"initializing ProgressTracker")
-        self.global_progress = self._parse_swarm_progress_data(metadata)#here
+        #here
+        self.global_progress = self._parse_swarm_progress_data(metadata)
         self.lock_global_progress, self.global_state_updated = threading.Lock(), threading.Event()
         self.should_report_progress, self.fetched_global_progress_this_epoch = threading.Event(), threading.Event()
         self.shutdown_triggered, self.shutdown_complete = threading.Event(), threading.Event()
@@ -332,9 +333,10 @@ class ProgressTracker(threading.Thread):
                 a_max=self.max_refresh_period,
             )
         )
+        #here
         logger.log(
             self.status_loglevel,
-            f"{self.prefix} accumulated {total_samples_accumulated} samples for epoch #{global_epoch} from "#here
+            f"{self.prefix} accumulated {total_samples_accumulated} samples for epoch #{global_epoch} from "
             f"{num_peers} peers. ETA {estimated_time_to_next_epoch:.2f} sec (refresh in {time_to_next_fetch:.2f} sec)",
         )
         return GlobalTrainingProgress(
