@@ -247,14 +247,14 @@ class Optimizer(torch.optim.Optimizer):
         self.scheduled_grads: Optional[StepControl] = None
         self.scheduled_state: Optional[StepControl] = None
 
-        logging.info(f"reaching _make_progress_tracker - initializes ProgressTracker")
+        #logging.info(f"reaching _make_progress_tracker - initializes ProgressTracker")
 
         #here
         self.tracker = self._make_progress_tracker(
             target_batch_size, performance_ema_alpha=performance_ema_alpha, **tracker_opts or {}
         )
 
-        logging.info(f"reaching _make_state_averager - initializes TrainingStateAverager")
+        #logging.info(f"reaching _make_state_averager - initializes TrainingStateAverager")
 
         #here
         self.state_averager = self._make_state_averager(
